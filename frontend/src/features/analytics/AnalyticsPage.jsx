@@ -1,10 +1,30 @@
-import PlaceholderPage from '../../components/ui/PlaceholderPage';
+import AnalyticsChart from "../../components/analytics/AnalyticsChart";
+import AnalyticsComparison from "../../components/analytics/AnalyticsComparison";
+import AnalyticsTrend from "../../components/analytics/AnalyticsTrend";
+import AnalyticsSummary from "../../components/analytics/AnalyticsSummary";
 
 export default function AnalyticsPage() {
   return (
-    <PlaceholderPage
-      title="Analytics"
-      description="Deep-dive analytics and trends for air quality data across the platform."
-    />
+    <div className="p-10 space-y-8">
+
+      <div>
+        <h1 className="text-4xl font-bold text-white">
+          📊 Analytics Dashboard
+        </h1>
+
+        <p className="mt-2 text-slate-400">
+          AI-powered analysis of Delhi's air quality trends and pollutant behavior.
+        </p>
+      </div>
+
+      <AnalyticsChart />
+
+      <AnalyticsComparison />
+
+      <AnalyticsTrend />
+
+      <AnalyticsSummary />
+
+    </div>
   );
 }

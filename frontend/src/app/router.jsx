@@ -9,6 +9,7 @@ import HealthPage from '../features/health/HealthPage';
 import LiveAqiPage from '../features/live-aqi/LiveAqiPage';
 import ReportsPage from '../features/reports/ReportsPage';
 import SourceAttributionPage from '../features/source-attribution/SourceAttributionPage';
+import TrafficPage from "../features/traffic/TrafficPage";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       { path: 'source-attribution', element: <SourceAttributionPage /> },
       { path: 'enforcement', element: <EnforcementPage /> },
       { path: 'health', element: <HealthPage /> },
+      {
+        path: "traffic",
+        element: <TrafficPage />,
+      },
       { path: 'analytics', element: <AnalyticsPage /> },
       { path: 'reports', element: <ReportsPage /> },
       { path: 'about-ai', element: <AboutAiPage /> },

@@ -2,12 +2,12 @@ import {
   HiOutlineChartBar,
   HiOutlineCpuChip,
   HiOutlineDocumentText,
-  HiOutlineHeart,
   HiOutlinePresentationChartLine,
   HiOutlineShieldCheck,
   HiOutlineSignal,
   HiOutlineSquares2X2,
   HiOutlineBeaker,
+  HiOutlineCloud,
 } from 'react-icons/hi2';
 
 export const NAV_ITEMS = [
@@ -38,8 +38,13 @@ export const NAV_ITEMS = [
   },
   {
     path: '/health',
-    label: 'Health Advisory',
-    icon: HiOutlineHeart,
+    label: 'Weather Intelligence',
+    icon: HiOutlineCloud,
+  },
+  {
+    path: "/traffic",
+    label: "Traffic Intelligence",
+    icon: HiOutlineSignal,
   },
   {
     path: '/analytics',
@@ -61,7 +66,8 @@ export const NAV_ITEMS = [
 export function getPageTitle(pathname) {
   const item = NAV_ITEMS.find(
     (nav) =>
-      nav.path === pathname || (nav.path !== '/' && pathname.startsWith(nav.path)),
+      nav.path === pathname ||
+      (nav.path !== '/' && pathname.startsWith(nav.path)),
   );
 
   return item?.label ?? 'Dashboard';
