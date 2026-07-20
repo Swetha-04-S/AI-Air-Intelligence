@@ -12,3 +12,4 @@ def load_cache():
 def save_cache(data):
     with open(CACHE_FILE, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=2)
+

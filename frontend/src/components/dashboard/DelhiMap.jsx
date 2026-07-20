@@ -11,6 +11,7 @@ import { getAQIStatus } from "../../utils/aqiUtils";
 export default function DelhiMap({ stations }) {
   return (
     <div className="mt-10">
+
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div>
@@ -24,7 +25,7 @@ export default function DelhiMap({ stations }) {
         </div>
 
         <span className="px-4 py-2 rounded-full bg-green-500/20 text-green-400 text-sm font-medium">
-          ● Live
+          ● {stations.length} Live Stations
         </span>
       </div>
 
@@ -42,22 +43,24 @@ export default function DelhiMap({ stations }) {
           />
 
           {stations.map((station) => {
-            // Get the first pollutant value
-            const firstValue = Number(
-              Object.values(station.pollutants)[0]
-            );
+            const status = getAQIStatus(station.aqi);
 
-            // AQI Status
-            const status = getAQIStatus(firstValue);
+            const size =
+              station.aqi > 300
+                ? 28
+                : station.aqi > 200
+                ? 24
+                : station.aqi > 100
+                ? 20
+                : 16;
 
-            // Custom glowing icon
             const icon = L.divIcon({
               className: "",
               html: `
                 <div
                   style="
-                    width:20px;
-                    height:20px;
+                    width:${size}px;
+                    height:${size}px;
                     border-radius:50%;
                     background:${status.color};
                     border:3px solid white;
@@ -65,9 +68,9 @@ export default function DelhiMap({ stations }) {
                   ">
                 </div>
               `,
-              iconSize: [20, 20],
-              iconAnchor: [10, 10],
-              popupAnchor: [0, -10],
+              iconSize: [size, size],
+              iconAnchor: [size / 2, size / 2],
+              popupAnchor: [0, -size / 2],
             });
 
             return (
@@ -80,9 +83,10 @@ export default function DelhiMap({ stations }) {
                 icon={icon}
               >
                 <Popup>
-                  <div className="space-y-3 min-w-[220px]">
+                  <div className="space-y-4 min-w-[240px]">
+
                     <h3 className="text-lg font-bold">
-                      {station.station}
+                      📍 {station.station}
                     </h3>
 
                     <div className="text-sm text-gray-600">
@@ -93,35 +97,51 @@ export default function DelhiMap({ stations }) {
 
                     <hr />
 
+                    {/* AQI Summary */}
+                    <div
+                      className="rounded-xl p-3 text-center"
+                      style={{
+                        backgroundColor: `${status.color}20`,
+                        color: status.color,
+                      }}
+                    >
+                      <div className="text-3xl font-bold">
+                        AQI {station.aqi}
+                      </div>
+
+                      <div className="font-semibold">
+                        {station.category}
+                      </div>
+
+                      <div className="text-sm mt-2">
+                        Dominant Pollutant
+                      </div>
+
+                      <div className="font-bold">
+                        {station.dominant_pollutant}
+                      </div>
+                    </div>
+
+                    <hr />
+
                     <div>
                       <h4 className="font-semibold mb-2">
-                        Pollutants
+                        Pollutant Levels
                       </h4>
 
                       {Object.entries(station.pollutants).map(
                         ([pollutant, value]) => (
                           <div
                             key={pollutant}
-                            className="flex justify-between py-1"
+                            className="flex justify-between py-1 text-sm"
                           >
                             <span>{pollutant}</span>
-
                             <strong>{value}</strong>
                           </div>
                         )
                       )}
                     </div>
 
-                    <hr />
-
-                    <div
-                      className="text-center font-bold text-lg"
-                      style={{
-                        color: status.color,
-                      }}
-                    >
-                      {status.label}
-                    </div>
                   </div>
                 </Popup>
               </Marker>
@@ -129,6 +149,42 @@ export default function DelhiMap({ stations }) {
           })}
         </MapContainer>
       </div>
+
+      {/* AQI Legend */}
+      <div className="mt-6 flex flex-wrap justify-center gap-6 rounded-xl border border-slate-800 bg-slate-900 p-4 text-sm text-white">
+
+        <div className="flex items-center gap-2">
+          <span className="h-4 w-4 rounded-full bg-green-500"></span>
+          Good
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="h-4 w-4 rounded-full bg-lime-500"></span>
+          Satisfactory
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="h-4 w-4 rounded-full bg-yellow-500"></span>
+          Moderate
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="h-4 w-4 rounded-full bg-red-500"></span>
+          Poor
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="h-4 w-4 rounded-full bg-purple-500"></span>
+          Very Poor
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="h-4 w-4 rounded-full bg-violet-700"></span>
+          Severe
+        </div>
+
+      </div>
+
     </div>
   );
 }
