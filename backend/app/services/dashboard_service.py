@@ -1,48 +1,61 @@
 from collections import defaultdict
 
 from app.services.cache_service import load_cache
+from app.services.station_builder import build_stations
+from app.services.aqi_calculator import calculate_station_aqi
 
 
 def build_dashboard_data():
+
     data = load_cache()
 
     records = data["records"]
 
-    stations = {}
+    # Build 44 station objects
+    stations = build_stations(records)
+
+    # Calculate AQI for every station
+    stations = [
+        calculate_station_aqi(station)
+        for station in stations
+    ]
+
     summary = defaultdict(list)
 
     latest_update = None
 
     for record in records:
-        station = record["station"]
 
-        if station not in stations:
-            stations[station] = {
-                "station": station,
-                "latitude": float(record["latitude"]),
-                "longitude": float(record["longitude"]),
-                "last_update": record["last_update"],
-                "pollutants": {}
-            }
+        value = record["avg_value"]
+
+        if value == "NA":
+            continue
 
         pollutant = record["pollutant_id"]
-        value = float(record["avg_value"])
 
-        stations[station]["pollutants"][pollutant] = value
-
-        summary[pollutant].append(value)
+        summary[pollutant].append(float(value))
 
         latest_update = record["last_update"]
 
     summary_avg = {}
 
     for pollutant, values in summary.items():
-        summary_avg[pollutant] = round(sum(values) / len(values), 2)
+
+        summary_avg[pollutant] = round(
+            sum(values) / len(values),
+            2
+        )
 
     return {
+
         "city": "Delhi",
+
         "last_updated": latest_update,
+
         "total_stations": len(stations),
+
         "summary": summary_avg,
-        "stations": list(stations.values())
+
+        "stations": stations,
+
     }

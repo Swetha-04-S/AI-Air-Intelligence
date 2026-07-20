@@ -4,6 +4,7 @@ import {
     FaWind,
     FaFire,
     FaLeaf,
+    FaFlask,
   } from "react-icons/fa";
   
   const pollutantConfig = {
@@ -31,6 +32,10 @@ import {
       icon: <FaLeaf size={28} />,
       color: "border-green-500",
     },
+    NH3: {
+      icon: <FaFlask size={28} />,
+      color: "border-pink-500",
+    },
   };
   
   function getStatus(value) {
@@ -43,7 +48,11 @@ import {
   }
   
   export default function PollutantCard({ pollutant, value }) {
-    const config = pollutantConfig[pollutant];
+    const config =
+      pollutantConfig[pollutant] || {
+        icon: <FaSmog size={28} />,
+        color: "border-slate-500",
+    };
   
     return (
       <div
