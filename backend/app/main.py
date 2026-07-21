@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.aqi import router as aqi_router
+from app.api.forecast_router import router as forecast_router
 
 app = FastAPI(
     title="AI Air Intelligence Platform",
@@ -21,8 +22,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register API routes
+# Register API Routes
 app.include_router(aqi_router)
+app.include_router(
+    forecast_router,
+    prefix="/api",
+    tags=["Forecast"],
+)
 
 
 @app.get("/")
@@ -35,4 +41,6 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy"
+    }
