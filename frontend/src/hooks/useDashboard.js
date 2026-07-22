@@ -6,18 +6,20 @@ export default function useDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function loadDashboard() {
-      try {
-        const response = await api.get("/dashboard");
-        setDashboard(response.data);
-      } catch (err) {
-        setError("Failed to load dashboard");
-      } finally {
-        setLoading(false);
-      }
+  async function loadDashboard() {
+    try {
+      setLoading(true);
+      const response = await api.get("/dashboard");
+      setDashboard(response.data);
+      setError("");
+    } catch (err) {
+      setError("Failed to load dashboard");
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     loadDashboard();
   }, []);
 
@@ -25,5 +27,6 @@ export default function useDashboard() {
     dashboard,
     loading,
     error,
+    refresh: loadDashboard,
   };
 }

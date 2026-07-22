@@ -1,6 +1,5 @@
 import AnalyticsChart from "../../components/analytics/AnalyticsChart";
-import AnalyticsComparison from "../../components/analytics/AnalyticsComparison";
-import AnalyticsTrend from "../../components/analytics/AnalyticsTrend";
+
 import AnalyticsSummary from "../../components/analytics/AnalyticsSummary";
 
 export default function AnalyticsPage() {
@@ -19,9 +18,6 @@ export default function AnalyticsPage() {
 
       <AnalyticsChart />
 
-      <AnalyticsComparison />
-
-      <AnalyticsTrend />
 
       <AnalyticsSummary />
 
