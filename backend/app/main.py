@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.aqi import router as aqi_router
 from app.api.forecast_router import router as forecast_router
+from app.api.history_router import router as history_router
+
 
 app = FastAPI(
     title="AI Air Intelligence Platform",
@@ -29,6 +31,12 @@ app.include_router(
     prefix="/api",
     tags=["Forecast"],
 )
+app.include_router(
+    history_router,
+    prefix="/api",
+    tags=["History"],
+)
+
 
 
 @app.get("/")

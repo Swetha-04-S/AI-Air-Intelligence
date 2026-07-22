@@ -21,6 +21,9 @@ export default function SourceChart() {
             <p className="mt-2 text-slate-400">
               (Recharts integration in next phase)
             </p>
+            <div className="h-[300px] flex items-center justify-center">
+                Interactive Pie Chart
+            </div>
   
           </div>
   

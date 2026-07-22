@@ -1,74 +1,38 @@
-import json
-from pathlib import Path
-from datetime import datetime
-
-HISTORY_FILE = Path(__file__).parent.parent / "data" / "history.json"
+from app.database.database import SessionLocal
+from app.database.history_model import AQIHistory
 
 
-def save_snapshot(stations):
+def get_history():
 
-    with open(HISTORY_FILE, "r", encoding="utf-8") as file:
-        history = json.load(file)
+    db = SessionLocal()
 
-    timestamp = datetime.now().isoformat()
+    history = (
+        db.query(AQIHistory)
+        .order_by(AQIHistory.timestamp.desc())
+        .limit(500)
+        .all()
+    )
 
-    for station in stations:
+    result = []
 
-        history.append({
+    for row in history:
 
-            "timestamp": timestamp,
-
-            "station": station["station"],
-
-            "aqi": station.get("aqi"),
-
-            "category": station.get("category"),
-
-            "dominant_pollutant": station.get("dominant_pollutant"),
-
-            "pm25": station["pollutants"].get("PM2.5"),
-
-            "pm10": station["pollutants"].get("PM10"),
-
-            "no2": station["pollutants"].get("NO2"),
-
-            "so2": station["pollutants"].get("SO2"),
-
-            "co": station["pollutants"].get("CO"),
-
-            "ozone": station["pollutants"].get("OZONE"),
-
-            "traffic_level": (
-                station["traffic"]["traffic_level"]
-                if station["traffic"] else None
-            ),
-
-            "congestion": (
-                station["traffic"]["congestion"]
-                if station["traffic"] else None
-            ),
-
-            "speed": (
-                station["traffic"]["speed"]
-                if station["traffic"] else None
-            ),
-
-            "temperature": (
-                station["weather"]["temperature"]
-                if station["weather"] else None
-            ),
-
-            "humidity": (
-                station["weather"]["humidity"]
-                if station["weather"] else None
-            ),
-
-            "wind_speed": (
-                station["weather"]["wind_speed"]
-                if station["weather"] else None
-            ),
-
+        result.append({
+            "station": row.station,
+            "aqi": row.aqi,
+            "pm25": row.pm25,
+            "pm10": row.pm10,
+            "no2": row.no2,
+            "so2": row.so2,
+            "co": row.co,
+            "ozone": row.ozone,
+            "temperature": row.temperature,
+            "humidity": row.humidity,
+            "wind_speed": row.wind_speed,
+            "congestion": row.congestion,
+            "timestamp": row.timestamp,
         })
 
-    with open(HISTORY_FILE, "w", encoding="utf-8") as file:
-        json.dump(history, file, indent=2)
+    db.close()
+
+    return result

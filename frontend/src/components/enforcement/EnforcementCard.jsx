@@ -3,6 +3,7 @@ export default function EnforcementCard({
     zone,
     risk,
     status,
+    aqi,
     borderColor,
   }) {
     return (
@@ -12,15 +13,19 @@ export default function EnforcementCard({
         <div className="flex items-center justify-between mb-8">
           <span className="text-5xl">{icon}</span>
   
-          <div className="h-8 w-8 rounded-full bg-white/10"></div>
+          <div className="rounded-full bg-slate-800 px-4 py-2">
+            <span className="text-cyan-400 font-bold text-lg">
+              AQI {aqi}
+            </span>
+          </div>
         </div>
   
         <h3 className="text-3xl font-bold text-white">
           {risk}
         </h3>
   
-        <p className="mt-2 text-lg text-slate-300">
-          {zone}
+        <p className="mt-3 text-lg text-slate-300">
+          📍 {zone}
         </p>
   
         <div className="mt-6 inline-flex rounded-full bg-slate-800 px-4 py-2 text-cyan-400 font-medium">

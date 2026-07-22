@@ -22,6 +22,7 @@ def build_stations(records):
             }
 
         pollutant = record["pollutant_id"]
+        print("POLLUTANT:", pollutant)
         value = record["avg_value"]
         # Skip missing pollutant values
         if value == "NA":

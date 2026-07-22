@@ -4,8 +4,10 @@ import StationGrid from "../../components/dashboard/StationGrid";
 import DelhiMap from "../../components/dashboard/DelhiMap";
 import DashboardHero from "../../components/dashboard/DashboardHero";
 
+import ForecastSection from "../../components/forecasting/ForecastSection";
 
 export default function DashboardPage() {
+
   const { dashboard, loading, error } = useDashboard();
 
   if (loading) {
@@ -17,23 +19,49 @@ export default function DashboardPage() {
   }
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className="p-8">
+
       <DashboardHero
-      city={dashboard.city}
-      lastUpdated={dashboard.last_updated}
-      totalStations={dashboard.total_stations}
+        city={dashboard.city}
+        lastUpdated={dashboard.last_updated}
+        totalStations={dashboard.total_stations}
       />
+
+      {/* Pollutant Summary */}
 
       <h2 className="text-2xl font-bold mt-8 mb-6">
         Pollutant Summary
       </h2>
+
       <SummaryGrid summary={dashboard.summary} />
+
+      {/* Delhi Map */}
+
       <DelhiMap stations={dashboard.stations} />
-      <hr />
-      <h2 className="text-3xl font-bold mt-10 mb-6">
+
+      {/* AI Forecast */}
+
+      <div className="mt-12">
+
+        <h2 className="text-3xl font-bold mb-6">
+          🤖 AI Forecast
+        </h2>
+
+        <ForecastSection />
+
+      </div>
+
+      {/* Monitoring Stations */}
+
+      <hr className="my-10" />
+
+      <h2 className="text-3xl font-bold mb-6">
         Monitoring Stations
       </h2>
+
       <StationGrid stations={dashboard.stations} />
-      </div>
+
+    </div>
   );
+
 }

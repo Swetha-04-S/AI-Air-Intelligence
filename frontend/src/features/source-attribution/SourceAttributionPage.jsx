@@ -1,6 +1,6 @@
 import SourceGrid from "../../components/source-attribution/SourceGrid";
-import SourceChart from "../../components/source-attribution/SourceChart";
-import SourceMap from "../../components/source-attribution/SourceMap";
+import DelhiHeatMap from "../../components/source-attribution/DelhiHeatMap";
+import HeatMapInsights from "../../components/source-attribution/HeatMapInsights";
 import SourceAnalysis from "../../components/source-attribution/SourceAnalysis";
 
 export default function SourceAttributionPage() {
@@ -19,9 +19,9 @@ export default function SourceAttributionPage() {
 
       <SourceGrid />
 
-      <SourceChart />
+      <DelhiHeatMap />
 
-      <SourceMap />
+      <HeatMapInsights />
 
       <SourceAnalysis />
 

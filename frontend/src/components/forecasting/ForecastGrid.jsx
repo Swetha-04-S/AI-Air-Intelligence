@@ -1,45 +1,25 @@
 import ForecastCard from "./ForecastCard";
 
-export default function ForecastGrid() {
-  const forecasts = [
-    {
-      period: "Today",
-      aqi: 164,
-      category: "Moderate",
-      trend: "🟢",
-      color: "border-green-500",
-    },
-    {
-      period: "Tomorrow",
-      aqi: 181,
-      category: "Poor",
-      trend: "🟡",
-      color: "border-yellow-500",
-    },
-    {
-      period: "48 Hours",
-      aqi: 198,
-      category: "Poor",
-      trend: "🟠",
-      color: "border-orange-500",
-    },
-    {
-      period: "72 Hours",
-      aqi: 214,
-      category: "Very Poor",
-      trend: "🔴",
-      color: "border-red-500",
-    },
-  ];
+export default function ForecastGrid({ forecast = [] }) {
+
+  if (!forecast.length) {
+    return (
+      <div className="text-center text-gray-400 py-10">
+        No forecast data available.
+      </div>
+    );
+  }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-      {forecasts.map((forecast) => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+      {forecast.slice(0, 4).map((station) => (
         <ForecastCard
-          key={forecast.period}
-          {...forecast}
+          key={station.station}
+          station={station}
         />
       ))}
+
     </div>
   );
 }
